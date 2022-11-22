@@ -1,10 +1,36 @@
-import {injectable, /* inject, */ BindingScope} from '@loopback/core';
+import { /* inject, */ BindingScope, injectable} from '@loopback/core';
+import {Lecturas} from '../Core/Interfaces/Datos.interface';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class OperacionesService {
-  constructor(/* Add @inject to inject parameters */) {}
+  constructor(/* Add @inject to inject parameters */) { }
 
-  /*
-   * Add service methods here
-   */
+  async FormulaCiclicaLecturaTemporal(direccion: boolean, lecturaInicial: Lecturas, LecturaFinal: Lecturas, fechaB: Date, cantidadCiclos: number) {
+
+    let posicionBuscada: number = await this.PosicionBuscada(direccion, lecturaInicial, LecturaFinal, fechaB);
+    cantidadCiclos = direccion ? cantidadCiclos += 1 : cantidadCiclos += 2;
+
+    let lecturaTemporal: Lecturas = {
+      date: fechaB,
+      tag_name: lecturaInicial.tag_name,
+      value: (((LecturaFinal.value - lecturaInicial.value) / cantidadCiclos) * (posicionBuscada)) + lecturaInicial.value
+    };
+
+    return lecturaTemporal;
+  }
+
+  async PosicionBuscada(direccion: boolean, lecturaInicial: Lecturas, LecturaFinal: Lecturas, fechaB: Date) {
+    let posicionBuscada = 0;
+
+    if (lecturaInicial && LecturaFinal) {
+      let fechaBuscada = new Date(Date.parse((fechaB).toString())).toISOString();
+      let fechaEncontrada = new Date(Date.parse((lecturaInicial.date).toString()) + (900000)).toISOString();
+      posicionBuscada = ((Date.parse(fechaBuscada)) - (Date.parse(fechaEncontrada))) / 900000;
+    }
+
+    posicionBuscada += 1;
+
+    return posicionBuscada;
+
+  }
 }

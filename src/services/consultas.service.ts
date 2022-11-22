@@ -1,6 +1,6 @@
 import { /* inject, */ BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import {ConsultaConsumo, EquiposLocacion, Lecturas} from '../Core/Interfaces/Datos.interface';
+import {ConsultaConsumo, EquiposLocacion, Lecturas, Locacion} from '../Core/Interfaces/Datos.interface';
 import {askDBO} from '../Core/Libraries/askDBO.library';
 import {EquipoRepository} from '../repositories';
 
@@ -11,16 +11,13 @@ export class ConsultasService {
     private equipoRepository: EquipoRepository
   ) { }
 
-  async ObtenerDatos(data: ConsultaConsumo) {
-    let datos: Array<Lecturas> = await this.equipoRepository.dataSource.execute(
-      `${askDBO.GET_HISTORIAN} (h.date = '${data.fechaFinal}' or h.date = '${data.fechaFinal}') ORDER BY tag_name ASC `,
+  async ObtenerDatos(data: ConsultaConsumo, Equipo: EquiposLocacion) {
+    let datos: Array<Lecturas> = [];
+    datos = await this.equipoRepository.dataSource.execute(
+      `${askDBO.GET_HISTORIAN} (h.date = '${data.fechaInicial}' or h.date = '${data.fechaFinal}') and h.tag_name = '${Equipo.tagName}' ORDER BY h.tag_name ASC `,
     );
 
-    if (datos.length > 0) {
-      return await datos;
-    }
-
-    return false;
+    return await datos;
   }
 
   async ObtenerEquiposPorPlanta() {
@@ -31,4 +28,24 @@ export class ConsultasService {
     return await datos;
 
   }
+
+  async ObternerLocaciones(tipoLocacionId: number) {
+    let datos: Array<Locacion> = await this.equipoRepository.dataSource.execute(
+      `${askDBO.GET_LOCACION} l.tipoLocacionId = ${tipoLocacionId}`,
+    );
+
+    return await datos;
+  }
+
+  async ObtenerDatosEnCliclos(fecha: Date, Equipo: EquiposLocacion, ciclos: number, tiempoCiclo: number) {
+
+    let datos: Array<Lecturas> = [];
+    datos = await this.equipoRepository.dataSource.execute(
+      `${askDBO.GET_HISTORIAN} (h.date = DATEADD(MINUTE,  ${ciclos * tiempoCiclo},'${(fecha).toISOString()}')) and h.tag_name = '${Equipo.tagName}'  and Value IS NOT NULL ORDER BY h.tag_name ASC `,
+    );
+
+    return await datos;
+
+  }
+
 }

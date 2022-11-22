@@ -1,6 +1,6 @@
 export interface Lecturas {
   tag_name: string,
-  date: string,
+  date: Date,
   value: number
 }
 
@@ -10,6 +10,7 @@ export interface ConsultaConsumo {
 }
 
 export interface Locacion {
+  id: number,
   descripcion: string,
   observacion: string,
   tipoLocacionId: number,
@@ -32,5 +33,6 @@ export interface esquemaDatos {
       lectura: Lecturas[],
       consumo: number,
     }
+    consumototal: number
   }
 }
