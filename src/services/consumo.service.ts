@@ -16,7 +16,6 @@ export class ConsumoService {
     let esquemaDatos: Array<esquemaDatos> = [];
 
     let Lecturas = await this.algoritmosService.lecturaTemporal(data);
-
     esquemaDatos = await this.esquemasService.ConsumoPorTipoLocacion(data, Lecturas);
 
     return esquemaDatos;

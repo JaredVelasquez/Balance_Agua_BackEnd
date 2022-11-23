@@ -39,11 +39,11 @@ export interface DatosEquipo {
 }
 
 export interface esquemaDatos {
-  datos: {
-    locacion: Locacion,
-    equipos: {
-      datos: DatosEquipo[],
-    }
-    consumototal: number
+  locacion: Locacion,
+  equipos: {
+    datos: DatosEquipo[],
   }
+  consumototal: number,
+  producciontotal: number,
+  reposiciontotal: number,
 }

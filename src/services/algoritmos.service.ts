@@ -15,6 +15,7 @@ export class AlgoritmosService {
   async lecturaTemporal(consulta: ConsultaConsumo) {
     let equipos: Array<EquiposLocacion> = await this.consultasService.ObtenerEquiposPorPlanta();
     let Lectura: Lecturas[] = [];
+    let Lecturas: Lecturas[] = [];
     let LecturaTemporalInicial: Array<Lecturas> = [], LecturaTemporalFinal: Array<Lecturas> = [];
     let cantidadCiclos = 0;
     let fechaInicial = new Date(Date.parse(consulta.fechaInicial) - (3600000 * 6));
@@ -55,12 +56,16 @@ export class AlgoritmosService {
 
           }
 
+          Lecturas.push(
+            Lectura[j]
+          );
+
         }
       }
 
     }
-    return Lectura;
 
+    return Lecturas;
   }
 
   // async LecturaPonderada(FechaInicial: Date, Lectura: Lecturas, Equipo: EquiposLocacion, cantidadCiclos: number, valorDelCiclo: number, faltaFechaInicial: boolean, ) {

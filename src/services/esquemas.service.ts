@@ -18,19 +18,19 @@ export class EsquemasService {
     for (let i = 0; i < Plantas.length; i++) {
       EsquemaConsumos.push(
         {
-          datos: {
-            locacion: {
-              id: Plantas[i].id,
-              descripcion: Plantas[i].descripcion,
-              observacion: Plantas[i].observacion,
-              tipoLocacionId: Plantas[i].tipoLocacionId,
-              estado: true
-            },
-            equipos: {
-              datos: []
-            },
-            consumototal: 0
-          }
+          locacion: {
+            id: Plantas[i].id,
+            descripcion: Plantas[i].descripcion,
+            observacion: Plantas[i].observacion,
+            tipoLocacionId: Plantas[i].tipoLocacionId,
+            estado: true
+          },
+          equipos: {
+            datos: []
+          },
+          consumototal: 0,
+          producciontotal: 0,
+          reposiciontotal: 0,
         }
       );
     }
@@ -39,8 +39,9 @@ export class EsquemasService {
       for (let j = 0; j < Equipos.length; j++) {
         if (Equipos[j].tagName == Lectura[i].tag_name) {
           for (let k = 0; k < EsquemaConsumos.length; k++) {
-            if (Equipos[i].locacionId == EsquemaConsumos[k].datos.locacion.id) {
-              EsquemaConsumos[k].datos.equipos.datos.push({
+            if (Equipos[j].locacionId == EsquemaConsumos[k].locacion.id) {
+
+              EsquemaConsumos[k].equipos.datos.push({
                 tag_name: Lectura[i].tag_name,
                 descripcion: Equipos[j].descEquipo,
                 tipoFuncionId: Equipos[j].tipoFuncionId,
@@ -51,8 +52,20 @@ export class EsquemasService {
                 consumo: Lectura[i + 1].value - Lectura[i].value
               }
               );
-              EsquemaConsumos[k].datos.consumototal += Lectura[i + 1].value - Lectura[i].value;
+              EsquemaConsumos[k].consumototal = Equipos[j].tipoFuncionId == 1 ?
+                EsquemaConsumos[k].consumototal += Lectura[i + 1].value - Lectura[i].value :
+                Equipos[j].tipoFuncionId == 2 ?
+                  EsquemaConsumos[k].consumototal -= Lectura[i + 1].value - Lectura[i].value :
+                  EsquemaConsumos[k].consumototal;
 
+
+              EsquemaConsumos[k].reposiciontotal = Equipos[j].tipoFuncionId == 2 ?
+                EsquemaConsumos[k].reposiciontotal += Lectura[i + 1].value - Lectura[i].value :
+                EsquemaConsumos[k].reposiciontotal;
+
+              EsquemaConsumos[k].producciontotal = Equipos[j].tipoFuncionId == 3 ?
+                EsquemaConsumos[k].producciontotal += Lectura[i + 1].value - Lectura[i].value :
+                EsquemaConsumos[k].producciontotal;
             }
           }
         }
