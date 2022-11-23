@@ -23,15 +23,26 @@ export interface EquiposLocacion {
   tipoLocacionId: number,
   tipoFuncionId: number,
   tagName: string,
+  descLoca: string,
+  descEquipo: string,
+}
+
+export interface DatosEquipo {
+  tag_name: string,
   descripcion: string,
+  tipoFuncionId: number,
+  fechaInicial: string,
+  fechaFinal: string,
+  lecturaInicial: number,
+  lecturaFinal: number,
+  consumo: number,
 }
 
 export interface esquemaDatos {
   datos: {
-    planta: Locacion,
+    locacion: Locacion,
     equipos: {
-      lectura: Lecturas[],
-      consumo: number,
+      datos: DatosEquipo[],
     }
     consumototal: number
   }

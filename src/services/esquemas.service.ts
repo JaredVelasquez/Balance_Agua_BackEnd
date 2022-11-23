@@ -19,7 +19,7 @@ export class EsquemasService {
       EsquemaConsumos.push(
         {
           datos: {
-            planta: {
+            locacion: {
               id: Plantas[i].id,
               descripcion: Plantas[i].descripcion,
               observacion: Plantas[i].observacion,
@@ -27,8 +27,7 @@ export class EsquemasService {
               estado: true
             },
             equipos: {
-              consumo: 0,
-              lectura: []
+              datos: []
             },
             consumototal: 0
           }
@@ -40,19 +39,20 @@ export class EsquemasService {
       for (let j = 0; j < Equipos.length; j++) {
         if (Equipos[j].tagName == Lectura[i].tag_name) {
           for (let k = 0; k < EsquemaConsumos.length; k++) {
-            if (Equipos[i].locacionId == EsquemaConsumos[k].datos.planta.id) {
-              EsquemaConsumos[k].datos.equipos.lectura.push({
-                date: Lectura[i].date,
+            if (Equipos[i].locacionId == EsquemaConsumos[k].datos.locacion.id) {
+              EsquemaConsumos[k].datos.equipos.datos.push({
                 tag_name: Lectura[i].tag_name,
-                value: Lectura[i].value
-              });
-              EsquemaConsumos[k].datos.equipos.lectura.push({
-                date: Lectura[i + 1].date,
-                tag_name: Lectura[i + 1].tag_name,
-                value: Lectura[i + 1].value
-              });
-              EsquemaConsumos[k].datos.equipos.consumo += (Lectura[i + 1].value - Lectura[i].value);
-              EsquemaConsumos[k].datos.consumototal += EsquemaConsumos[k].datos.equipos.consumo;
+                descripcion: Equipos[j].descEquipo,
+                tipoFuncionId: Equipos[j].tipoFuncionId,
+                fechaInicial: consulta.fechaInicial,
+                fechaFinal: consulta.fechaFinal,
+                lecturaInicial: Lectura[i].value,
+                lecturaFinal: Lectura[i + 1].value,
+                consumo: Lectura[i + 1].value - Lectura[i].value
+              }
+              );
+              EsquemaConsumos[k].datos.consumototal += Lectura[i + 1].value - Lectura[i].value;
+
             }
           }
         }
