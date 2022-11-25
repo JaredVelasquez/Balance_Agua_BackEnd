@@ -31,6 +31,7 @@ export class EsquemasService {
           consumototal: 0,
           producciontotal: 0,
           reposiciontotal: 0,
+          consumocalientetotal: 0,
         }
       );
     }
@@ -54,10 +55,7 @@ export class EsquemasService {
               );
               EsquemaConsumos[k].consumototal = Equipos[j].tipoFuncionId == 1 ?
                 EsquemaConsumos[k].consumototal += Lectura[i + 1].value - Lectura[i].value :
-                Equipos[j].tipoFuncionId == 2 ?
-                  EsquemaConsumos[k].consumototal -= Lectura[i + 1].value - Lectura[i].value :
-                  EsquemaConsumos[k].consumototal;
-
+                EsquemaConsumos[k].consumototal;
 
               EsquemaConsumos[k].reposiciontotal = Equipos[j].tipoFuncionId == 2 ?
                 EsquemaConsumos[k].reposiciontotal += Lectura[i + 1].value - Lectura[i].value :
@@ -66,6 +64,11 @@ export class EsquemasService {
               EsquemaConsumos[k].producciontotal = Equipos[j].tipoFuncionId == 3 ?
                 EsquemaConsumos[k].producciontotal += Lectura[i + 1].value - Lectura[i].value :
                 EsquemaConsumos[k].producciontotal;
+
+              EsquemaConsumos[k].consumocalientetotal = Equipos[j].tipoFuncionId == 4 ?
+                EsquemaConsumos[k].consumocalientetotal += Lectura[i + 1].value - Lectura[i].value :
+                EsquemaConsumos[k].consumocalientetotal;
+
             }
           }
         }

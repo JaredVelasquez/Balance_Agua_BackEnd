@@ -46,4 +46,5 @@ export interface esquemaDatos {
   consumototal: number,
   producciontotal: number,
   reposiciontotal: number,
+  consumocalientetotal: number
 }
