@@ -14,6 +14,7 @@ export class ConsumoService {
 
   async CalculoConsumo(data: ConsultaConsumo) {
     let esquemaDatos: Array<esquemaDatos> = [];
+    console.log(data);
 
     let Lecturas = await this.algoritmosService.lecturaTemporal(data);
     esquemaDatos = await this.esquemasService.ConsumoPorTipoLocacion(data, Lecturas);
