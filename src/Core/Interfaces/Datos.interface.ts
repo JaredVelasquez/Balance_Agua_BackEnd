@@ -42,6 +42,7 @@ export interface esquemaDatos {
   locacion: Locacion,
   equipos: {
     datos: DatosEquipo[],
+    expands: boolean
   }
   consumototal: number,
   producciontotal: number,

@@ -26,7 +26,8 @@ export class EsquemasService {
             estado: true
           },
           equipos: {
-            datos: []
+            datos: [],
+            expands: false
           },
           consumototal: 0,
           producciontotal: 0,

@@ -14,7 +14,7 @@ export class ConsultasService {
   async ObtenerDatos(data: ConsultaConsumo, Equipo: EquiposLocacion) {
     let datos: Array<Lecturas> = [];
     datos = await this.equipoRepository.dataSource.execute(
-      `${askDBO.GET_HISTORIAN} (h.date = '${data.fechaInicial}' or h.date = '${data.fechaFinal}') and h.tag_name = '${Equipo.tagName}' ORDER BY h.tag_name ASC `,
+      `${askDBO.GET_HISTORIAN} (h.date = '${data.fechaInicial}' OR h.date = '${data.fechaFinal}')  ORDER BY tag_name ASC `,
     );
 
     return await datos;
@@ -22,7 +22,7 @@ export class ConsultasService {
 
   async ObtenerEquiposPorPlanta() {
     let datos: Array<EquiposLocacion> = await this.equipoRepository.dataSource.execute(
-      `${askDBO.GET_EQUIPOS_LOCACION} l.tipoLocacionId = ${1} and e.locacionId = l.id ORDER BY tagName ASC `,
+      `${askDBO.GET_EQUIPOS_LOCACION} e.estado = 1 and l.tipoLocacionId = ${1} and e.locacionId = l.id ORDER BY tagName ASC `,
     );
 
     return await datos;
@@ -31,7 +31,7 @@ export class ConsultasService {
 
   async ObternerLocaciones(tipoLocacionId: number) {
     let datos: Array<Locacion> = await this.equipoRepository.dataSource.execute(
-      `${askDBO.GET_LOCACION} l.tipoLocacionId = ${tipoLocacionId}`,
+      `${askDBO.GET_LOCACION} l.tipoLocacionId = ${tipoLocacionId} and estado = 1`,
     );
 
     return await datos;
