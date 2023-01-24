@@ -5,3 +5,4 @@ export * from './unidad-medicion.repository';
 export * from './equipo.repository';
 export * from './tipo-equipo.repository';
 export * from './tipo-funcion.repository';
+export * from './periodos-consumo.repository';

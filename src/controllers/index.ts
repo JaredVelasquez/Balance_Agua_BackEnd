@@ -12,3 +12,4 @@ export * from './equipo-unidad-medicion.controller';
 export * from './locacion-equipo.controller';
 export * from './equipo-locacion.controller';
 export * from './custom-routes.controller';
+export * from './perido-consumo.controller';
