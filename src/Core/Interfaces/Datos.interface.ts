@@ -104,7 +104,7 @@ export interface esquemaDatos {
 
 export interface ConsumoPlantaRangoFecha {
   date: Date,
-  diferencia: Date,
+  diferencia: number,
 }
 
 export interface ConsumoDetallePlanta {

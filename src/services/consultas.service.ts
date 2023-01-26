@@ -88,7 +88,7 @@ export class ConsultasService {
     let datos: Array<ConsumoPlantaRangoFecha> = [];
     datos = await this.equipoRepository.dataSource.execute(
       `
-      SELECT t.date date, sum(d.value-t.value) diferencia from  (SELECT h.id, h.tag_name, h.date, h.value
+      SELECT t.date date, CAST(sum(d.value-t.value)  AS DECIMAL(16,2)) diferencia from  (SELECT h.id, h.tag_name, h.date, h.value
       FROM Historian.dbo.Datos h
       WHERE (h.date between '${data.fechaInicial}' and '${data.fechaFinal}') and tag_name  IN(SELECT e.tagName FROM BalanceAgua.dbo.Equipo e, BalanceAgua.dbo.Locacion l WHERE  e.locacionId = l.id and  e.tipoFuncionId = ${tipoFuncionId} and e.estado = 1  and l.id = ${locacion}) ) AS t
       INNER JOIN (SELECT h.id, h.tag_name, h.date, h.value
